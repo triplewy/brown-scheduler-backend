@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/triplewy/brown-scheduler-backend#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13"
   }
 }
