@@ -34,8 +34,23 @@ app.get('/status', function(req, res) {
 });
 
 app.post('/generate', (req, res) => {
-  console.log();
+  console.log('- Request received:', req.method.cyan, '/generate');
+  const body = req.body
+  MongoClient.connect(url, function(err, client) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Connected successfully to server");
+      const db = client.db(dbName);
+      const courses = db.collection('courses');
+      courses.find().toArray(function(err, result) {
+        res.send({ courses: result })
+        client.close();
+      })
+    }
+  })
 })
+
 app.set('port', port);
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,5 +72,3 @@ function getCSCourses() {
     }
   })
 }
-
-getCSCourses()

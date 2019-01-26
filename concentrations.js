@@ -16,13 +16,16 @@ MongoClient.connect(url, function(err, client) {
     console.log("Connected successfully to server");
 
     const db = client.db(dbName);
-    const col = db.collection('courses');
+    const col = db.collection('concentrations');
 
-    request.post('https://cab.brown.edu/api/?page=fose&route=search&keyword=ECON&is_ind_study=N', {json: {"other":{"srcdb":"999999"},"criteria":[{"field":"keyword","value":"ECON"},{"field":"is_ind_study","value":"N"}]}},
+    request.post('https://cab.brown.edu/api/?page=fose&route=programs-list', {json: {"srcdb":"201820","programsType":"conc"}},
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          console.log(body)
-          col.insertMany(body.results, function(err, result) {
+          var insertBulk = []
+          for (var code in body) {
+            insertBulk.push({ code: code, title: body[code] })
+          }
+          col.insertMany(insertBulk, function(err, result) {
             console.log(result)
             client.close();
           })
