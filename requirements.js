@@ -87,7 +87,7 @@ MongoClient.connect(url, function(err, client) {
     }
     const db = client.db(dbName);
     const col = db.collection('concentrations');
-      col.updateOne({ symbol : 'COMP-SCB' }
+      col.updateOne({ code : 'COMP-SCB' }
         , { $set: { requirements : collection } }, function(err, result) {
         //assert.equal(err, null);
         //assert.equal(1, result.result.n);
